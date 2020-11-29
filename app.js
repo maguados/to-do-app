@@ -4,22 +4,24 @@ window.onload = function () {
 }
 
 function PaginaCargada() {
-    let toDos = [];
-
     const addToDoForm = document.getElementById('addToDoForm');
+    let toDos = [];
+    let id = 0;
 
     function createNewToDo() {
-        const newToDoText = document.getElementById('newToDoText');
-
+    const newToDoText = document.getElementById('newToDoText');
+    IF(!new_todo_text.value){ return;} <----Asi lo tenía ella
         toDos.push({
             title: newToDoText.value,
             complete: false
+            id: id
         });
+
+        id++;
 
         //console.log(toDos);
 
         newToDoText.value = '';
-
         renderTheUI();
     }
 
@@ -34,9 +36,22 @@ function PaginaCargada() {
             const checkbox = document.createElement('input');
             checkbox.type = "checkbox";
 
+          const delete_btn = document.createElement("button"); 
+          delete_btn.textContent = "Delete!" ;
+
+          delete_btn.addEventListener("click", e => {
+            toDos = toDos.filter(function(item){
+                return item.id !== toDo.id;
+            })
+            
+
+            renderTheUI();
+          });
+
             newLi.textContent = toDo.title;
             toDoList.appendChild(newLi);
             newLi.appendChild(checkbox);
+            newLi.appendChild(delete_btn);
         });
 
     }
