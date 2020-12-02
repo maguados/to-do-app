@@ -1,12 +1,19 @@
 window.onload = function () {
 
-    PaginaCargada();
+    onReady();
 }
 
-
-function PaginaCargada() {
+function onReady() {
     let toDos = [];
     let Myid = 0;
+
+    toDos = JSON.parse(localStorage.getItem("array")); 
+    if(toDos !== null) {
+        console.log(toDos);
+        renderTheUI();
+    }
+    else
+        toDos = [];
 
     const addToDoForm = document.getElementById('addToDoForm');
 
@@ -39,7 +46,8 @@ function PaginaCargada() {
             const icon=document.createElement("i");
 
             checkbox.type = "checkbox";
-            deleteBtn.textContent = toDo.id; 
+            checkbox.checked = toDo.complete
+           // deleteBtn.textContent = toDo.id; 
             deleteBtn.setAttribute("class", "btn btn-danger px-3");
 
 
@@ -52,17 +60,25 @@ function PaginaCargada() {
             newLi.appendChild(deleteBtn);
             deleteBtn.appendChild(icon);
 
+
+            checkbox.addEventListener("change", e => {
+                //alert("Done!");
+                toDo.complete = !toDo.complete; //Bonus Assignment #1
+                //console.log(toDo.complete);
+                renderTheUI();
+            });
+
             deleteBtn.addEventListener("click", e =>{
-                alert("Are you sure you want to delete"  +toDo.id + "?");
+                alert("Are you sure you want to delete "  +toDo.id + " ?");
                 toDos = toDos.filter(function(item){
                     return item.id !== toDo.id;
                 })
 
                 renderTheUI();
             });
-        });
 
-        
+            localStorage.setItem('array', JSON.stringify(toDos)); //Bonus Assignment Number 2
+        });
 
     }
 
